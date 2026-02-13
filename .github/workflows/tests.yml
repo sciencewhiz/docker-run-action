@@ -16,6 +16,7 @@ jobs:
         id: run-docker
         with:
           image: docker:20.10.3
+          options: -v $GITHUB_OUTPUT:$GITHUB_OUTPUT -e GITHUB_OUTPUT
           run: |
             echo "docker-version=`echo $DOCKER_VERSION`" >> $GITHUB_OUTPUT
       - name: Test the output
@@ -37,7 +38,7 @@ jobs:
         id: run-docker
         with:
           image: docker
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work $GITHUB_OUTPUT:$GITHUB_OUTPUT -e GITHUB_OUTPUT
           run: | 
             echo "file-contents=`cat /work/someFile`" >> $GITHUB_OUTPUT
       - name: Check if file contents match
