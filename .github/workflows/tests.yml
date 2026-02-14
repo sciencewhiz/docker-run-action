@@ -19,8 +19,6 @@ jobs:
           options: -v ${{ github.workspace }}:/work
           run: |
             echo "$DOCKER_VERSION" > /work/docker_version
-            cat /work/docker_version
-      - run: cat docker_version
       - name: Test the output
         uses: actions/github-script@v8
         with:
