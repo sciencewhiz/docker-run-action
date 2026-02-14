@@ -11,15 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Run docker action and set output for testing
+      - name: Run docker action and save version for testing
         uses: ./
         id: run-docker
         with:
           image: docker:29.0.4
           options: -v ${{ github.workspace }}:/work
           run: |
-            # write into the mounted repo so the runner can read it
             echo "$DOCKER_VERSION" > /work/docker_version
+            cat /work/docker_version
+      - run: cat docker_version
       - name: Test the output
         uses: actions/github-script@v8
         with:
