@@ -25,9 +25,11 @@ jobs:
         uses: actions/github-script@v3
         with:
           script: |
-            const dockerVersion = `cat docker_version`;
-            if (dockerVersion !== '29.0.4') {
-              core.setFailed(`Smoke Test Failed`);
+            const fs = require('fs');
+            const dockerVersion = fs.readFileSync('docker_version', 'utf8').trim();
+            const expected = '29.0.4';
+            if (dockerVersion !== expected) {
+              core.setFailed(`Smoke Test Failed: expected ${expected} but received ${dockerVersion}`);
             }
   volume-mount-test:
     runs-on: ubuntu-latest
