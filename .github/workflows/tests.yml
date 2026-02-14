@@ -16,9 +16,11 @@ jobs:
         id: run-docker
         with:
           image: docker:29.0.4
+          options: -v ${{ github.workspace }}:/github/workspace
           run: |
-            echo `$DOCKER_VERSION` >> /github/home/docker_version
-      - run: echo `cat docker_version`
+            # write into the mounted repo so the runner can read it
+            echo "$DOCKER_VERSION" > /github/workspace/docker_version
+      - run: cat docker_version
       - name: Test the output
         uses: actions/github-script@v3
         with:
