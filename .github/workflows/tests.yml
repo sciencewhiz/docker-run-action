@@ -27,7 +27,7 @@ jobs:
           script: |
             const fs = require('fs');
             const dockerVersion = fs.readFileSync('docker_version', 'utf8').trim();
-            const expected = '29.0.5';
+            const expected = '29.0.4';
             if (dockerVersion !== expected) {
               core.setFailed(`Smoke Test Failed: expected ${expected} but received ${dockerVersion}`);
             }
@@ -44,12 +44,13 @@ jobs:
           image: docker
           options: -v ${{ github.workspace }}:/work
           run: | 
-            echo "file-contents=$(cat /work/someFile)" >> $GITHUB_OUTPUT
+            echo `cat /work/someFile` >> /work/secondFile
       - name: Check if file contents match
         uses: actions/github-script@v8
         with:
           script: |
-            const fileContents = '${{ steps.run-docker.outputs.file-contents }}';
+            const fs = require('fs');
+            const dockerVersion = fs.readFileSync('secondFile', 'utf8').trim();
             if (fileContents !== 'some text') {
               core.setFailed(`Unable to mount workspace volume`);
             }
