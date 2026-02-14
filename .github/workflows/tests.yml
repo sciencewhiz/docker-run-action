@@ -27,7 +27,7 @@ jobs:
           script: |
             const fs = require('fs');
             const dockerVersion = fs.readFileSync('docker_version', 'utf8').trim();
-            const expected = '29.0.4';
+            const expected = '29.0.5';
             if (dockerVersion !== expected) {
               core.setFailed(`Smoke Test Failed: expected ${expected} but received ${dockerVersion}`);
             }
