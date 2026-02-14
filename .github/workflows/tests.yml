@@ -16,12 +16,12 @@ jobs:
         id: run-docker
         with:
           image: docker:29.0.4
-          options: -v ${{ github.workspace }}:/github/workspace
+          options: -v ${{ github.workspace }}:/work
           run: |
             # write into the mounted repo so the runner can read it
-            echo "$DOCKER_VERSION" > /github/workspace/docker_version
+            echo "$DOCKER_VERSION" > /work/docker_version
       - name: Test the output
-        uses: actions/github-script@v3
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
