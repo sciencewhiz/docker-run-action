@@ -15,16 +15,16 @@ jobs:
         uses: ./
         id: run-docker
         with:
-          image: docker:29.1
+          image: docker:29.0
           run: |
-            echo "docker-version=$(echo $DOCKER_VERSION)" >> $GITHUB_OUTPUT
-      - run: echo "$GITHUB_OUTPUT"
+            echo `$DOCKER_VERSION` >> /github/workspace/docker_version
+      - run: cat docker_version
       - name: Test the output
         uses: actions/github-script@v3
         with:
           script: |
-            const dockerVersion = '${{ steps.run-docker.outputs.docker-version }}';
-            if (dockerVersion !== '29.1') {
+            const dockerVersion = `cat docker_version`;
+            if (dockerVersion !== '29.0') {
               core.setFailed(`Smoke Test Failed`);
             }
   volume-mount-test:
