@@ -43,14 +43,14 @@ jobs:
         with:
           image: docker
           options: -v ${{ github.workspace }}:/work
-          run: | 
-            echo `cat /work/someFile` >> /work/secondFile
+          run: |
+            cp /work/someFile /work/secondFile
       - name: Check if file contents match
         uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
-            const dockerVersion = fs.readFileSync('secondFile', 'utf8').trim();
+            const fileContents = fs.readFileSync('secondFile', 'utf8').trim();
             if (fileContents !== 'some text') {
               core.setFailed(`Unable to mount workspace volume`);
             }
